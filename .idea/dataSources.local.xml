@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="MySQL - laravel@localhost" uuid="8e792695-92d9-4f94-9bb5-87f875f90725">
+    <data-source name="MySQL - laravel@localhost" uuid="d49741ea-f8b1-4537-b1b1-925890e056af">
       <secret-storage>master_key</secret-storage>
       <user-name>root</user-name>
       <schema-pattern>laravel.*</schema-pattern>
       <default-schemas>laravel.*</default-schemas>
     </data-source>
-    <data-source name="MySQL - test@localhost" uuid="d86c657e-8eea-4e66-ae07-75ae44348898">
+    <data-source name="MySQL - astah@localhost" uuid="b74ef4e5-1b7e-4918-aab8-c9b911b97346">
       <secret-storage>master_key</secret-storage>
       <user-name>root</user-name>
-      <schema-pattern>test.*</schema-pattern>
-      <default-schemas>test.*</default-schemas>
+      <schema-pattern>astah.*</schema-pattern>
+      <default-schemas>astah.*</default-schemas>
     </data-source>
   </component>
 </project>

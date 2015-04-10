@@ -1,15 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - laravel@localhost" uuid="8e792695-92d9-4f94-9bb5-87f875f90725">
-    <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+  <data-source name="MySQL - laravel@localhost" uuid="d49741ea-f8b1-4537-b1b1-925890e056af">
+    <database-info product="MySQL" version="5.5.24-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
     <schema name="" catalog="laravel"/>
+    <table name="commentaires" schema="" catalog="laravel" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="contenu" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="covoiturage_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="commentaires_covoiturage_id_foreign" columns="covoiturage_id" ref-table="covoiturages" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="commentaires_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="commentaires_covoiturage_id_foreign" unique="false" columns="covoiturage_id"/>
+      <index name="commentaires_user_id_foreign" unique="false" columns="user_id"/>
+    </table>
+    <table name="covoiturages" schema="" catalog="laravel" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="ville_depart_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ville_arrivee_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="conducteur_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="date_depart" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="vehicule" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="prix" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="details" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="bagage" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="flexibilite_horaire" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="covoiturages_conducteur_id_foreign" columns="conducteur_id" ref-table="users" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="covoiturages_ville_arrivee_id_foreign" columns="ville_arrivee_id" ref-table="villes" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="covoiturages_ville_depart_id_foreign" columns="ville_depart_id" ref-table="villes" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="commentaires_covoiturage_id_foreign" table="commentaires" schema="" catalog="laravel" columns="covoiturage_id"/>
+      <exported-key name="user_covoiturage_inscrits_covoiturage_id_foreign" table="user_covoiturage_inscrits" schema="" catalog="laravel" columns="covoiturage_id"/>
+      <exported-key name="user_covoiturage_preinscrits_covoiturage_id_foreign" table="user_covoiturage_preinscrits" schema="" catalog="laravel" columns="covoiturage_id"/>
+      <index name="covoiturages_conducteur_id_foreign" unique="false" columns="conducteur_id"/>
+      <index name="covoiturages_ville_arrivee_id_foreign" unique="false" columns="ville_arrivee_id"/>
+      <index name="covoiturages_ville_depart_id_foreign" unique="false" columns="ville_depart_id"/>
+    </table>
     <table name="migrations" schema="" catalog="laravel" type="TABLE">
       <column name="migration" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="batch" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+    </table>
+    <table name="notifications" schema="" catalog="laravel" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="contenu" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="notifications_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="notifications_user_id_foreign" unique="false" columns="user_id"/>
     </table>
     <table name="password_resets" schema="" catalog="laravel" type="TABLE">
       <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -18,53 +65,110 @@
       <index name="password_resets_email_index" unique="false" columns="email"/>
       <index name="password_resets_token_index" unique="false" columns="token"/>
     </table>
+    <table name="user_covoiturage_inscrits" schema="" catalog="laravel" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="covoiturage_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="user_covoiturage_inscrits_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="user_covoiturage_inscrits_covoiturage_id_foreign" columns="covoiturage_id" ref-table="covoiturages" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="user_covoiturage_inscrits_covoiturage_id_foreign" unique="false" columns="covoiturage_id"/>
+      <index name="user_covoiturage_inscrits_user_id_foreign" unique="false" columns="user_id"/>
+    </table>
+    <table name="user_covoiturage_preinscrits" schema="" catalog="laravel" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="covoiturage_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="user_covoiturage_preinscrits_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="user_covoiturage_preinscrits_covoiturage_id_foreign" columns="covoiturage_id" ref-table="covoiturages" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="user_covoiturage_preinscrits_covoiturage_id_foreign" unique="false" columns="covoiturage_id"/>
+      <index name="user_covoiturage_preinscrits_user_id_foreign" unique="false" columns="user_id"/>
+    </table>
     <table name="users" schema="" catalog="laravel" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="password" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
       <column name="remember_token" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
       <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
       <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="nom" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="prenom" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
+      <column name="genre" sqlType="VARCHAR" precision="5" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date_nais" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="num_tel" sqlType="VARCHAR" precision="8" scale="0" nullable="false" jdbcType="12"/>
+      <column name="pref_musique" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MQ=="/>
+      <column name="pref_animeaux" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MQ=="/>
+      <column name="pref_discussion" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MQ=="/>
+      <column name="pref_fumeur" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MQ=="/>
+      <column name="ville_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="description" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="users_ville_id_foreign" columns="ville_id" ref-table="villes" ref-schema="" ref-catalog="laravel" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="commentaires_user_id_foreign" table="commentaires" schema="" catalog="laravel" columns="user_id"/>
+      <exported-key name="covoiturages_conducteur_id_foreign" table="covoiturages" schema="" catalog="laravel" columns="conducteur_id"/>
+      <exported-key name="notifications_user_id_foreign" table="notifications" schema="" catalog="laravel" columns="user_id"/>
+      <exported-key name="user_covoiturage_inscrits_user_id_foreign" table="user_covoiturage_inscrits" schema="" catalog="laravel" columns="user_id"/>
+      <exported-key name="user_covoiturage_preinscrits_user_id_foreign" table="user_covoiturage_preinscrits" schema="" catalog="laravel" columns="user_id"/>
       <index name="users_email_unique" unique="true" columns="email"/>
+      <index name="users_ville_id_foreign" unique="false" columns="ville_id"/>
+    </table>
+    <table name="villes" schema="" catalog="laravel" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nom" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="wilaya" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="longitude" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="latitude" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="covoiturages_ville_arrivee_id_foreign" table="covoiturages" schema="" catalog="laravel" columns="ville_arrivee_id"/>
+      <exported-key name="covoiturages_ville_depart_id_foreign" table="covoiturages" schema="" catalog="laravel" columns="ville_depart_id"/>
+      <exported-key name="users_ville_id_foreign" table="users" schema="" catalog="laravel" columns="ville_id"/>
+      <index name="villes_nom_unique" unique="true" columns="nom"/>
     </table>
   </data-source>
-  <data-source name="MySQL - test@localhost" uuid="d86c657e-8eea-4e66-ae07-75ae44348898">
-    <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+  <data-source name="MySQL - astah@localhost" uuid="b74ef4e5-1b7e-4918-aab8-c9b911b97346">
+    <database-info product="MySQL" version="5.5.24-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
-    <schema name="" catalog="test"/>
-    <table name="commentaire" schema="" catalog="test" type="TABLE">
+    <schema name="" catalog="astah"/>
+    <table name="commentaire" schema="" catalog="astah" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="contenu" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="date_com" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="date_com" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <column name="Membre_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="Covoiturage_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="Commentaire_Membre" columns="Membre_id" ref-table="membre" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="Commentaire_Covoiturage" columns="Covoiturage_id" ref-table="covoiturage" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="Commentaire_Membre" columns="Membre_id" ref-table="membre" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="Commentaire_Covoiturage" unique="false" columns="Covoiturage_id"/>
       <index name="Commentaire_Membre" unique="false" columns="Membre_id"/>
     </table>
-    <table name="covoiturage" schema="" catalog="test" type="TABLE">
+    <table name="covoiturage" schema="" catalog="astah" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="Ville_depart_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="Ville_arrivee_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="conducteur_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="vehicule" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="date_publication" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="horaire_depart" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="date_publication" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="horaire_depart" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="Covoiturage_Ville_a" columns="Ville_arrivee_id" ref-table="ville" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="Covoiturage_Membre" columns="conducteur_id" ref-table="membre" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="Covoiturage_Ville_d" columns="Ville_depart_id" ref-table="ville" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="passager_Covoiturage" table="passager" schema="" catalog="test" columns="Covoiturage_id"/>
-      <exported-key name="Passager_préinscrit_Covoiturage" table="passager_preinscrit" schema="" catalog="test" columns="Covoiturage_id"/>
+      <foreign-key name="Covoiturage_Membre" columns="conducteur_id" ref-table="membre" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="Covoiturage_Ville_a" columns="Ville_arrivee_id" ref-table="ville" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="Covoiturage_Ville_d" columns="Ville_depart_id" ref-table="ville" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="Commentaire_Covoiturage" table="commentaire" schema="" catalog="astah" columns="Covoiturage_id"/>
+      <exported-key name="passager_Covoiturage" table="passager" schema="" catalog="astah" columns="Covoiturage_id"/>
+      <exported-key name="Passager_préinscrit_Covoiturage" table="passager_preinscrit" schema="" catalog="astah" columns="Covoiturage_id"/>
       <index name="Covoiturage_Membre" unique="false" columns="conducteur_id"/>
       <index name="Covoiturage_Ville_a" unique="false" columns="Ville_arrivee_id"/>
       <index name="Covoiturage_Ville_d" unique="false" columns="Ville_depart_id"/>
     </table>
-    <table name="membre" schema="" catalog="test" type="TABLE">
+    <table name="membre" schema="" catalog="astah" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="nom" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="prenom" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -81,48 +185,48 @@
       <column name="pref_discussion" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
       <column name="pref_cigarette" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="Membre_Ville" columns="Ville_id" ref-table="ville" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="Commentaire_Membre" table="commentaire" schema="" catalog="test" columns="Membre_id"/>
-      <exported-key name="Covoiturage_Membre" table="covoiturage" schema="" catalog="test" columns="conducteur_id"/>
-      <exported-key name="Notification_Membre" table="notification" schema="" catalog="test" columns="Membre_id"/>
-      <exported-key name="passager_Membre" table="passager" schema="" catalog="test" columns="Membre_id"/>
-      <exported-key name="Passager_préinscrit_Membre" table="passager_preinscrit" schema="" catalog="test" columns="Membre_id"/>
+      <foreign-key name="Membre_Ville" columns="Ville_id" ref-table="ville" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="Commentaire_Membre" table="commentaire" schema="" catalog="astah" columns="Membre_id"/>
+      <exported-key name="Covoiturage_Membre" table="covoiturage" schema="" catalog="astah" columns="conducteur_id"/>
+      <exported-key name="Notification_Membre" table="notification" schema="" catalog="astah" columns="Membre_id"/>
+      <exported-key name="passager_Membre" table="passager" schema="" catalog="astah" columns="Membre_id"/>
+      <exported-key name="Passager_préinscrit_Membre" table="passager_preinscrit" schema="" catalog="astah" columns="Membre_id"/>
       <index name="Membre_Ville" unique="false" columns="Ville_id"/>
     </table>
-    <table name="notification" schema="" catalog="test" type="TABLE">
+    <table name="notification" schema="" catalog="astah" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="contenu" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="Membre_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="Notification_Membre" columns="Membre_id" ref-table="membre" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="Notification_Membre" columns="Membre_id" ref-table="membre" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="Notification_Membre" unique="false" columns="Membre_id"/>
     </table>
-    <table name="passager" schema="" catalog="test" type="TABLE">
+    <table name="passager" schema="" catalog="astah" type="TABLE">
       <column name="Membre_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="Covoiturage_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="Membre_id,Covoiturage_id"/>
-      <foreign-key name="passager_Membre" columns="Membre_id" ref-table="membre" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="passager_Covoiturage" columns="Covoiturage_id" ref-table="covoiturage" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="passager_Covoiturage" columns="Covoiturage_id" ref-table="covoiturage" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="passager_Membre" columns="Membre_id" ref-table="membre" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="passager_Covoiturage" unique="false" columns="Covoiturage_id"/>
     </table>
-    <table name="passager_preinscrit" schema="" catalog="test" type="TABLE">
+    <table name="passager_preinscrit" schema="" catalog="astah" type="TABLE">
       <column name="Membre_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="Covoiturage_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="Membre_id,Covoiturage_id"/>
-      <foreign-key name="Passager_préinscrit_Membre" columns="Membre_id" ref-table="membre" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="Passager_préinscrit_Covoiturage" columns="Covoiturage_id" ref-table="covoiturage" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="Passager_préinscrit_Covoiturage" columns="Covoiturage_id" ref-table="covoiturage" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="Passager_préinscrit_Membre" columns="Membre_id" ref-table="membre" ref-schema="" ref-catalog="astah" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="Passager_préinscrit_Covoiturage" unique="false" columns="Covoiturage_id"/>
     </table>
-    <table name="ville" schema="" catalog="test" type="TABLE">
+    <table name="ville" schema="" catalog="astah" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="nom" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="wilaya" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="longitude" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="latitude" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="Covoiturage_Ville_a" table="covoiturage" schema="" catalog="test" columns="Ville_arrivee_id"/>
-      <exported-key name="Covoiturage_Ville_d" table="covoiturage" schema="" catalog="test" columns="Ville_depart_id"/>
-      <exported-key name="Membre_Ville" table="membre" schema="" catalog="test" columns="Ville_id"/>
+      <exported-key name="Covoiturage_Ville_a" table="covoiturage" schema="" catalog="astah" columns="Ville_arrivee_id"/>
+      <exported-key name="Covoiturage_Ville_d" table="covoiturage" schema="" catalog="astah" columns="Ville_depart_id"/>
+      <exported-key name="Membre_Ville" table="membre" schema="" catalog="astah" columns="Ville_id"/>
     </table>
   </data-source>
 </component>

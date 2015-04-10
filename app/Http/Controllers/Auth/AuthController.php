@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Auth;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
@@ -35,4 +36,9 @@ class AuthController extends Controller {
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
+    protected function getFailedLoginMessage()
+    {
+        return 'L’adresse E-Mail ou le mot de passe que vous avez saisi est incorrect.
+        Veuillez réessayer (vérifiez que le verrouillage des majuscules est désactivé).';
+    }
 }

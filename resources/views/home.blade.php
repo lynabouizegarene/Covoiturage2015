@@ -9,6 +9,7 @@
 
 				<div class="panel-body">
 					You are logged in!
+					<div><img src="{{ $pathPhoto }}" alt="photo de profil"/></div>
 				</div>
 			</div>
 		</div>
