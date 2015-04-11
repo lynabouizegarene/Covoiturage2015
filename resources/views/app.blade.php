@@ -34,6 +34,7 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
+					<li><a href="{{ url('covoiturage/publier') }}">publier</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -63,5 +64,6 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     @yield('script_register')
+    @yield('script_maps_autocomplete')
 </body>
 </html>

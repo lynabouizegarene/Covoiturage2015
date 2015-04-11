@@ -85,7 +85,7 @@
 						<div class="form-group">
                             <label class="col-md-4 control-label">Date de naissance</label>
                         	<div class="col-md-6">
-                        		<input type="text" class="form-control datepicker" name="date_nais" value="{{ old('date_nais') }}" required>
+                        		<input type="text" class="form-control" id="datepicker" name="date_nais" value="{{ old('date_nais') }}" required>
                         	</div>
                         </div>
 
@@ -200,13 +200,14 @@
     <script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('locales/bootstrap-datepicker.fr-CH.min.js')}}"></script>
 	<script>
-        $('.datepicker').datepicker({
+        $('#datepicker').datepicker({
             format: "yyyy-mm-dd",
             weekStart: 7,
             startDate: "-100y",
             endDate: "-18y",
             startView: 2,
-            language: "fr"
+            language: "fr",
+            autoclose: true
         });
     </script>
 

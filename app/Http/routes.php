@@ -15,7 +15,16 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
+Route::get('covoiturage/publier', [
+    'as' => 'covoiturage/publier',
+    'uses' => 'CovoiturageController@create'
+]);
+Route::post('covoiturage/store', [
+    'as' => 'covoiturage/store',
+    'uses' => 'CovoiturageController@store'
+]);
+
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
 ]);
