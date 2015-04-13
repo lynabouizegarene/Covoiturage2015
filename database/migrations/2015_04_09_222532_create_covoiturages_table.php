@@ -13,12 +13,13 @@ class CreateCovoituragesTable extends Migration {
 			$table->integer('ville_depart_id')->unsigned();
 			$table->integer('ville_arrivee_id')->unsigned();
 			$table->integer('conducteur_id')->unsigned();
+			$table->integer('nombre_places')->unsigned();
 			$table->timestamp('date_depart');
 			$table->string('vehicule', 255);
 			$table->integer('prix');
 			$table->text('details')->nullable();
-			$table->string('bagage', 255);
-			$table->string('flexibilite_horaire', 255);
+			$table->string('bagage', 5);
+			$table->string('flexibilite_horaire', 15);
 		});
 	}
 

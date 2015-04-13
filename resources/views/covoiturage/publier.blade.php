@@ -20,39 +20,105 @@
 						</div>
 					@endif
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('covoiturage/store') }}">
+					<form class="form-horizontal" role="form" method="POST" action="{{ route('covoiturage/store') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="panel panel-default">
-                        	<div class="panel-heading"><h4>Itinéraire <span class="glyphicon glyphicon-road"></span></h4></div>
+                        	<div class="panel-heading"><h4><span class="glyphicon glyphicon-road"></span> Itinéraire </h4></div>
                         	<div class="panel-body">
                         		<div class="form-group">
                             		<div class="input-group col-md-offset-2 col-md-8">
                                         <span class="input-group-addon">Point de départ</span>
-                                        <input id="autocomplete_d" type="text" class="form-control" required>
+                                        <input name="autocomplete_d" id="autocomplete_d" type="text" class="form-control" value="{{ old('autocomplete_d') }}" required>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
                                     </div>
                             	</div>
-                            	<input type="hidden"  id="ville_d">
-                                <input type="hidden"  id="wilaya_d">
-                                <input type="hidden"  id="geoloc_d">
+                            	<input type="hidden"  id="ville_d" name="ville_d" value="{{ old('ville_d') }}">
+                                <input type="hidden"  id="wilaya_d" name="wilaya_d" value="{{ old('wilaya_d') }}">
+                                <input type="hidden"  id="geoloc_d" name="geoloc_d" value="{{ old('geolog_d') }}">
 
                             	<div class="form-group">
                             		<div class="input-group col-md-offset-2 col-md-8">
                                         <span class="input-group-addon">Point d'arrivée &nbsp;</span>
-                                        <input id="autocomplete_a" type="text" class="form-control" required>
+                                        <input name="autocomplete_a" id="autocomplete_a" type="text" class="form-control" value="{{ old('autocomplete_a') }}" required>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
                                     </div>
                             	</div>
-                            	<input type="hidden"  id="ville_a">
-                                <input type="hidden"  id="wilaya_a">
-                                <input type="hidden"  id="geoloc_a">
+                            	<input type="hidden"  id="ville_a" name="ville_a" value="{{ old('ville_a') }}">
+                                <input type="hidden"  id="wilaya_a" name="wilaya_a" value="{{ old('wilaya_a') }}">
+                                <input type="hidden"  id="geoloc_a" name="geoloc_a" value="{{ old('geoloc_a') }}">
 
                                 <div class="form-group">
                                     <div class="input-group date col-md-offset-2 col-md-8" id="form_datetime">
                                         <span class="input-group-addon">Date et horaire &nbsp;</span>
-                                        <input class="form-control" type="text" required readonly>
+                                        <input class="form-control" type="text" name="date_depart" value="{{ old('date_depart') }}" required readonly>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h4><span class="glyphicon glyphicon-pencil"></span> Détails </h4></div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Donnez un prix</label>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                              <input type="text" class="form-control" name="prix" value="{{ old('prix') }}" required>
+                                              <span class="input-group-addon">DZD</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="col-md-4 control-label">Nombre de places</label>
+                                       <div class="col-md-6">
+                                           <input type="text" class="form-control" name="nombre_places" value="{{ old('nombre_places') }}" pattern="^[0-9]+$">
+                                       </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                       <label class="col-md-4 control-label">Votre véhicule</label>
+                                       <div class="col-md-6">
+                                           <input type="text" class="form-control" name="vehicule" value="{{ old('vehicule') }}" required>
+                                       </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Bagages autorisés</label>
+                                        <div class="col-md-6">
+                                             <label class="radio-inline">
+                                               <input type="radio" name="bagage" value="petit"> Petits
+                                             </label>
+                                             <label class="radio-inline">
+                                               <input type="radio" name="bagage" value="moyen" checked> Moyens
+                                             </label>
+                                             <label class="radio-inline">
+                                                <input type="radio" name="bagage" value="grand" > Grands
+                                             </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Fléxibilité Horaire</label>
+                                        <div class="col-md-6">
+                                            <SELECT name="flexibilite_horaire" class="form-control">
+                                               <OPTION VALUE="Pile à l'heure">Pile à l'heure</OPTION>
+                                               <OPTION VALUE="+/- 15 minutes">+/- 15 minutes </OPTION>
+                                               <OPTION VALUE="+/- 30 minutes">+/- 30 minutes</OPTION>
+                                             </SELECT>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h4><span class="glyphicon glyphicon-list-alt"></span> Description </h4></div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Entrez des informations suplémentaire sur le covoiturage</label>
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" name="details">{{ old('description') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -92,9 +158,9 @@
 	var yyyyend   = (now.getFullYear()+1).toString();
     var mm     = (now.getMonth()+1).toString();
     var dd     = now.getDate().toString();
-    var hh     = ((now.getHours()+6)%24).toString();
+    var hh     = ((now.getHours()+2)%24).toString();
     var ii     = now.getMinutes().toString();
-    if(now.getHours()+6>24){dd++}
+    if(now.getHours()+2>24){dd++}
 
     $('#form_datetime').datetimepicker({
             language:  'fr',

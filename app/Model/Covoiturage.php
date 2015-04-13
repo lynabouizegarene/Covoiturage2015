@@ -8,6 +8,7 @@ class Covoiturage extends Model {
 
 	protected $table = 'covoiturages';
 	public $timestamps = true;
+    protected  $guarded = array('id', 'timestamps');
 
 	public function villeDepart()
 	{

@@ -16,10 +16,10 @@ Route::get('/', 'WelcomeController@index');
 Route::get('home', 'HomeController@index');
 
 Route::get('covoiturage/publier', [
-    'as' => 'covoiturage/publier',
+    'as' => 'covoiturage/create',
     'uses' => 'CovoiturageController@create'
 ]);
-Route::post('covoiturage/store', [
+Route::post('covoiturage/enregistrer',[
     'as' => 'covoiturage/store',
     'uses' => 'CovoiturageController@store'
 ]);
