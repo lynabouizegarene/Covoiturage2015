@@ -89,6 +89,42 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'autocomplete_d' => [
+            'required' => 'Le champ Point de départ est obligatoire.',
+        ],
+        'ville_d' => [
+            'required' => '',
+        ],
+        'wilaya_d' => [
+            'required' => '',
+        ],
+        'geoloc_d' => [
+            'required' => 'Utilisez les suggestion google maps',
+        ],
+        'autocomplete_a' => [
+            'required' => 'Le champ Point de départ est obligatoire.',
+        ],
+        'ville_a' => [
+            'required' => '',
+        ],
+        'wilaya_a' => [
+            'required' => '',
+        ],
+        'geoloc_a' => [
+            'required' => 'Utilisez les suggestion google maps',
+        ],
+        'autocomplete' => [
+            'required' => 'Le champ Point de départ est obligatoire.',
+        ],
+        'ville' => [
+            'required' => '',
+        ],
+        'wilaya' => [
+            'required' => '',
+        ],
+        'geoloc' => [
+            'required' => 'utilisez les suggestion google maps',
+        ],
     ],
 
     /*

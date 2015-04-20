@@ -41,4 +41,14 @@ class AuthController extends Controller {
         return 'L’adresse E-Mail ou le mot de passe que vous avez saisi est incorrect.
         Veuillez réessayer (vérifiez que le verrouillage des majuscules est désactivé).';
     }
+
+    public function redirectPath()
+    {
+        if (property_exists($this, 'redirectPath'))
+        {
+            return $this->redirectPath;
+        }
+
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/acceuil';
+    }
 }

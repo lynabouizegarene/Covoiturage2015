@@ -1,20 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use App\Model\Covoiturage;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+
 
 class HomeController extends Controller {
-
-	/*
-	|--------------------------------------------------------------------------
-	| Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller renders your application's "dashboard" for users that
-	| are authenticated. Of course, you are free to change or remove the
-	| controller as you wish. It is just here to get your app started!
-	|
-	*/
 
     /**
      * Create a new controller instance.
@@ -24,6 +15,7 @@ class HomeController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('auth');
+        Carbon::setLocale('fr');
 	}
 
 	/**
@@ -33,18 +25,24 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-        $user = Auth::user();
-        $file = $user->id.'.jpg';
-        if (Storage::exists($file))
-        {
-            $pathPhoto='../storage/app/'.$file;
-        }elseif($user->genre=='Homme'){
-            $pathPhoto='../storage/app/Homme.jpg';
-        }else{
-            $pathPhoto='../storage/app/Femme.jpg';
-        }
+        $recents = Covoiturage::with('villeDepart','villeArrivee','conducteur')
+            ->select('id','date_depart','prix','vehicule','conducteur_id','ville_arrivee_id','ville_depart_id')
+            ->where('date_depart', '>', date("Y-m-d H:i:s"))
+            ->orderBy('date_depart')
+            ->take(5)
+            ->get();
 
-		return view('home',compact('pathPhoto'));
+        $bonplans = Covoiturage::with('villeDepart','villeArrivee','conducteur')
+            ->select('id','date_depart','prix','vehicule','conducteur_id','ville_arrivee_id','ville_depart_id')
+            ->where('prix','=','0')
+            ->where('date_depart', '>', date("Y-m-d H:i:s"))
+            ->orderBy('date_depart')
+            ->take(5)
+            ->get();
+
+        $pasLoins = $this->covoituragesMoinDe(100,Auth::User()->ville,3);
+
+        return view('home')->with(compact('recents','bonplans','pasLoins'));
 	}
 
 }

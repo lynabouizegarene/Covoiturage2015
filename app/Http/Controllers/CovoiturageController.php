@@ -1,14 +1,18 @@
 <?php namespace App\Http\Controllers;
 
 
+use App\Http\Requests\StoreCovoiturageRequest;
 use App\Model\Covoiturage;
+use App\Model\User;
 use App\Model\Ville;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CovoiturageController extends Controller
 {
 
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,36 +38,12 @@ class CovoiturageController extends Controller
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreCovoiturageRequest $request)
     {
-        $this->validate($request,[
-            'autocomplete_d' => 'required|max:255',
-            'ville_d' => 'required|max:255',
-            'wilaya_d' => 'required|max:255',
-            'geoloc_d' => 'required|max:255',
-            'autocomplete_a' => 'required|max:255',
-            'ville_a' => 'required|max:255',
-            'wilaya_a' => 'required|max:255',
-            'geoloc_a' => 'required|max:255',
-            'date_depart' => 'required|after:'.date('y-m-d h:i'),
-            'prix' => 'required|numeric',
-            'nombre_places' => 'required|numeric',
-            'vehicule' => 'required',
-            'bagage' => 'required|in:petit,moyen,grand',
-            'flexibilite_horaire' => 'required|in:Pile à l\'heure,+/- 15 minutes,+/- 30 minutes',
-        ]);
         $data = $request->all();
-        $geoloc_d = $data['geoloc_d'];
-        $geoloc_d = str_replace(["(", ")"], "", $geoloc_d);
-        $geoloc_d = explode(",", $geoloc_d);
-        $geoloc_d[0] = (Double)($geoloc_d[0]);
-        $geoloc_d[1] = (Double)($geoloc_d[1]);
 
-        $geoloc_a = $data['geoloc_a'];
-        $geoloc_a = str_replace(["(", ")"], "", $geoloc_a);
-        $geoloc_a = explode(",", $geoloc_a);
-        $geoloc_a[0] = (Double)($geoloc_a[0]);
-        $geoloc_a[1] = (Double)($geoloc_a[1]);
+        $geoloc_d = $this->getLonLat($data['geoloc_d']);
+        $geoloc_a = $this->getLonLat($data['geoloc_a']);
 
         $ville_d = Ville::firstOrCreate([
             'nom' => $data['ville_d'],
@@ -78,7 +58,7 @@ class CovoiturageController extends Controller
             'latitude' => $geoloc_a[1],
         ]);
 
-        $covoiturage = Covoiturage::create([
+        Covoiturage::create([
             'ville_depart_id' => $ville_d->getAttribute('id'),
             'ville_arrivee_id' => $ville_a->getAttribute('id'),
             'conducteur_id' => Auth::id(),
@@ -90,8 +70,7 @@ class CovoiturageController extends Controller
             'bagage' => $data['bagage'],
             'flexibilite_horaire' => $data['flexibilite_horaire']
         ]);
-        dd($covoiturage->inscrits()->get());
-        return 'hello';
+        return redirect(route('home'))->with('message', 'Votre annonce a bien été publié');
     }
 
     /**
@@ -102,7 +81,7 @@ class CovoiturageController extends Controller
      */
     public function show($id)
     {
-
+        return 'covoiturage '.$id;
     }
 
     /**

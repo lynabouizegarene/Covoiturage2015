@@ -13,7 +13,10 @@
 
 Route::get('/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+Route::get('acceuil', [
+    'as' => 'home',
+    'uses' => 'HomeController@index'
+]);
 
 Route::get('covoiturage/publier', [
     'as' => 'covoiturage/create',
@@ -21,8 +24,18 @@ Route::get('covoiturage/publier', [
 ]);
 Route::post('covoiturage/enregistrer',[
     'as' => 'covoiturage/store',
-    'uses' => 'CovoiturageController@store'
+    'uses' => 'CovoiturageController@store',
 ]);
+
+Route::get('covoiturage/{id}', [
+    'as' => 'covoiturage/show',
+    'uses' => 'CovoiturageController@show'
+])->where(['id' => '[0-9]+']);
+
+Route::get('profil/{id}', [
+    'as' => 'user/show',
+    'uses' => 'UserController@show'
+])->where(['id' => '[0-9]+']);
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

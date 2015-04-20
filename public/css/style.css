@@ -2,3 +2,42 @@ body {
     padding-top: 70px;
     background-color: #EEE;
 }
+.jumbotron.dark h1 {
+    text-shadow: #242424 -3px 2px 5px;
+}
+.jumbotron.dark {
+    background-image: url("../img/Black-Grey-Background.jpg");
+    color: #5cb75c;
+    background-size: cover;
+}
+
+.page-header.dark small{
+    font-family: 'Lato', sans-serif;
+    color: #f4f4f4;
+}
+.page-header.dark {
+    font-family: 'Akronim', cursive;
+    border-bottom: 1px solid #cdcdcd;
+}
+.color-green {
+    color: rgb(92, 183, 92);
+}
+.color-red {
+    color: rgb(223, 35, 33);
+}
+.color-blue {
+    color: rgb(51, 122, 182);
+}
+
+a:link {
+    text-decoration: none;
+    color: #1e375c;
+}
+a:visited {
+    text-decoration: none;
+    color: #000000;
+}
+a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: rgb(51, 122, 182);
+}

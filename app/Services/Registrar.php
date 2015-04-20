@@ -71,10 +71,19 @@ class Registrar implements RegistrarContract
             'pref_fumeur' => $data['pref_fumeur'],
             'description' => $data['description'],
         ]);
-        if (Input::file('photo')->isValid()) {
+        if (Input::file('photo')) {
             $destination = '../storage/app'; // path
             $fileName = $user->getAttribute('id') . '.jpg'; // renameing image
             Input::file('photo')->move($destination, $fileName);
+            // redimensionner
+            $source = imagecreatefromjpeg($destination.'/'.$fileName);
+            $mini = imagecreatetruecolor(64,64);
+            $ls = imagesx($source);
+            $hs = imagesy($source);
+            $lm = imagesx($mini);
+            $hm = imagesy($mini);
+            imagecopyresampled($mini,$source,0,0,0,0,$lm,$hm,$ls,$hs);
+            imagejpeg($mini,$destination.'/mini_'.$fileName);
         }
         return $user;
     }

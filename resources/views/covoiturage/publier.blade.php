@@ -1,4 +1,9 @@
 @extends('app')
+
+@section('activePublier')
+class="active"
+@endsection
+
 @section('content')
 <link href="{{ asset('DateTimePicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" media="screen">
 
@@ -14,7 +19,9 @@
 							<strong>Whoops!</strong> Une erreur est survenue.<br><br>
 							<ul>
 								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
+								    @if(!empty($error))
+								     <li>{{ $error }}</li>
+								    @endif
 								@endforeach
 							</ul>
 						</div>
@@ -34,7 +41,7 @@
                             	</div>
                             	<input type="hidden"  id="ville_d" name="ville_d" value="{{ old('ville_d') }}">
                                 <input type="hidden"  id="wilaya_d" name="wilaya_d" value="{{ old('wilaya_d') }}">
-                                <input type="hidden"  id="geoloc_d" name="geoloc_d" value="{{ old('geolog_d') }}">
+                                <input type="hidden"  id="geoloc_d" name="geoloc_d" value="{{ old('geoloc_d') }}">
 
                             	<div class="form-group">
                             		<div class="input-group col-md-offset-2 col-md-8">
@@ -62,7 +69,7 @@
                             <div class="panel-heading"><h4><span class="glyphicon glyphicon-pencil"></span> Détails </h4></div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label">Donnez un prix</label>
+                                        <label class="col-md-4 control-label">Prix par passager</label>
                                         <div class="col-md-6">
                                             <div class="input-group">
                                               <input type="text" class="form-control" name="prix" value="{{ old('prix') }}" required>
@@ -87,15 +94,17 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Bagages autorisés</label>
                                         <div class="col-md-6">
-                                             <label class="radio-inline">
-                                               <input type="radio" name="bagage" value="petit"> Petits
-                                             </label>
-                                             <label class="radio-inline">
-                                               <input type="radio" name="bagage" value="moyen" checked> Moyens
-                                             </label>
-                                             <label class="radio-inline">
-                                                <input type="radio" name="bagage" value="grand" > Grands
-                                             </label>
+                                            <div class="btn-group" data-toggle="buttons">
+                                              <label class="btn btn-default">
+                                                <input type="radio" name="bagage" value="petit"> Petits
+                                              </label>
+                                              <label class="btn btn-default active">
+                                                <input type="radio" name="bagage" value="moyen" checked> Moyens
+                                              </label>
+                                              <label class="btn btn-default">
+                                                <input type="radio" name="bagage" value="grand"> Grands
+                                              </label>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -118,19 +127,18 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Entrez des informations suplémentaire sur le covoiturage</label>
                                     <div class="col-md-6">
-                                        <textarea class="form-control" name="details">{{ old('description') }}</textarea>
+                                        <textarea class="form-control" name="details" rows="6" style="resize: none" >{{ old('description') }}</textarea>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                	<div class="col-md-6 col-md-offset-4">
+                                		<button type="submit" class="btn btn-primary">
+                                			Publier
+                                		</button>
+                                	</div>
                                 </div>
                             </div>
                         </div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									S'inscrire
-								</button>
-							</div>
-						</div>
 					</form>
 				</div>
 			</div>
@@ -160,8 +168,7 @@
     var dd     = now.getDate().toString();
     var hh     = ((now.getHours()+2)%24).toString();
     var ii     = now.getMinutes().toString();
-    if(now.getHours()+2>24){dd++}
-
+    if((now.getHours()+2)>=24){dd++}
     $('#form_datetime').datetimepicker({
             language:  'fr',
             format: 'yyyy-mm-dd hh:ii',
