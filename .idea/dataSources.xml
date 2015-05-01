@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1022978054">
-    <data-source source="LOCAL" name="MySQL - laravel@localhost" uuid="d49741ea-f8b1-4537-b1b1-925890e056af">
+  <component name="DataSourceManagerImpl" format="xml" hash="2832588178">
+    <data-source source="LOCAL" name="MySQL - laravel@localhost" uuid="f4574cd9-f2ae-43f7-a96e-c1914e09ed4a">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/laravel</jdbc-url>
-      <driver-properties>
-        <property name="zeroDateTimeBehavior" value="convertToNull" />
-        <property name="tinyInt1isBit" value="false" />
-        <property name="characterEncoding" value="utf8" />
-        <property name="characterSetResults" value="utf8" />
-        <property name="yearIsDateType" value="false" />
-      </driver-properties>
-      <libraries />
-    </data-source>
-    <data-source source="LOCAL" name="MySQL - astah@localhost" uuid="b74ef4e5-1b7e-4918-aab8-c9b911b97346">
-      <driver-ref>mysql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/astah</jdbc-url>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />
