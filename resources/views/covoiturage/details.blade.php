@@ -2,13 +2,14 @@
 @section('content')
     <?php $conducteur=$covoiturage->conducteur; ?>
 
- <div class="container" xmlns="http://www.w3.org/1999/html">
+ <div class="container">
 
             @if(Session::has('erreur'))
             <div class="alert alert-danger">
             {{Session::get('erreur')}}
             </div>
             @endif
+
       <div class="col-md-8">
         <div class="panel panel-default">
           <div class="panel-heading" style="border-bottom: 5px solid #273951">
@@ -26,18 +27,29 @@
                       <td>Départ </td>
                       <td><span class="color-green glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;{{$covoiturage->villeDepart->nom}}</td>
                    </thead>
-                   <tr>
-                      <td>Arrivée</td>
-                      <td><span class="color-red glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;{{$covoiturage->villeArrivee->nom}}</td>
-                   </tr>
-                   <tr>
-                      <td>Date de départ </td>
-                      <td><i class=" fa fa-calendar"></i>&nbsp;&nbsp;{{$date->format('d/m/Y')}}</td>
-                   </tr>
-                   <tr>
-                      <td>Heure </td>
-                      <td> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{$date->format('H:i')}}</td>
-                   </tr>
+                   <tbody>
+                       <tr>
+                          <td>Arrivée</td>
+                          <td><span class="color-red glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;{{$covoiturage->villeArrivee->nom}}</td>
+                       </tr>
+                       <tr>
+                          <td>Date de départ </td>
+                          <td><i class=" fa fa-calendar"></i>&nbsp;&nbsp;{{$date->format('d/m/Y')}}</td>
+                       </tr>
+                       <tr>
+                          <td>Heure </td>
+                          <td> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{$date->format('H:i')}}</td>
+                       </tr>
+                       <tr>
+                           <td>Distance </td>
+                           <td><div id="outputDivDist"></div></td>
+                       </tr>
+                       <tr>
+                           <td>Durée estimée </td>
+                           <td><div id="outputDivTime"></div></td>
+                       </tr>
+                       <tr>&nbsp;</tr>
+                   </tbody>
                 </table>
                        <?php
                        if($covoiturage->bagage == 'petit')
@@ -82,94 +94,96 @@
                      <td>{{$covoiturage->details}}</td>
                   </tr>
               </table>
-           </div>
-           <div class="text-right">
-            Publier le : {{ \Carbon\Carbon::createFromTimestamp(strtotime($covoiturage->created_at))->format('d/m/Y') }}
-           </div>
-          </div>
-       </div>
-       <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>
-                    Questions publiques ({{ $covoiturage->commentaires->count() }})
-                </h4>
             </div>
-            <div class="panel-body">
-                <div style="padding-bottom: 30px">
-                    @foreach($covoiturage->commentaires as $commentaire)
-                        <div class="row">
-                            <div class="col-xs-12" style="border-bottom: 1px solid #bbe7f0; padding-top: 10px; padding-bottom: 10px">
-                            @if($commentaire->user->id != $conducteur->id)
-                            <div class="media">
-                                <div class="media-left">
-                                  <a href="{{route('user/show',$commentaire->user->id)}}">
-                                    <div class="thumbnail">
-                                    <img class="media-object" src="{{'../'.$commentaire->user->pathPhoto('mini_')}}" alt="photo profil">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="media-body">
-                                  <h4 class="media-heading">{{$commentaire->user->prenom.' '.$commentaire->user->nom}}
-                                  <small>
-                                  {{\Carbon\Carbon::createFromTimestamp(strtotime($commentaire->created_at))->diffForHumans()}}
-                                  </small>
-                                  </h4>
-                                  {{$commentaire->contenu}}
-                                </div>
-                            </div>
-                             @else
-                             <div class="media pull-right color-blue">
-                                <div class="media-body">
-                                  <h4 class="media-heading text-right">
-                                    <a href="{{route('user/show',$commentaire->user->id)}}">
-                                    {{$commentaire->user->prenom.' '.$commentaire->user->nom}}
-                                    </a>
-                                  <small>
-                                  {{\Carbon\Carbon::createFromTimestamp(strtotime($commentaire->created_at))->diffForHumans()}}
-                                  </small>
-                                  </h4>
-                                  {{$commentaire->contenu}}
-                                </div>
-                                 <div class="media-right">
+               <div class="text-right">
+                Publier le : {{ \Carbon\Carbon::createFromTimestamp(strtotime($covoiturage->created_at))->format('d/m/Y') }}
+               </div>
+
+            <div id="map-canvas"></div>
+          </div>
+        </div>
+        <div class="panel panel-info">
+             <div class="panel-heading">
+                 <h4>
+                     Questions publiques ({{ $covoiturage->commentaires->count() }})
+                 </h4>
+             </div>
+             <div class="panel-body">
+                 <div style="padding-bottom: 30px">
+                     @foreach($covoiturage->commentaires as $commentaire)
+                         <div class="row">
+                             <div class="col-xs-12" style="border-bottom: 1px solid #e7e7e7; padding-top: 10px; padding-bottom: 10px">
+                             @if($commentaire->user->id != $conducteur->id)
+                             <div class="media">
+                                 <div class="media-left">
                                    <a href="{{route('user/show',$commentaire->user->id)}}">
                                      <div class="thumbnail">
                                      <img class="media-object" src="{{'../'.$commentaire->user->pathPhoto('mini_')}}" alt="photo profil">
                                      </div>
                                    </a>
                                  </div>
+                                 <div class="media-body">
+                                   <h4 class="media-heading">{{$commentaire->user->prenom.' '.$commentaire->user->nom}}
+                                   <small>
+                                   {{\Carbon\Carbon::createFromTimestamp(strtotime($commentaire->created_at))->diffForHumans()}}
+                                   </small>
+                                   </h4>
+                                   {{$commentaire->contenu}}
+                                 </div>
                              </div>
-                             @endif
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                	@if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                			<strong>Whoops!</strong> Une erreur est survenue.<br><br>
-                			<ul>
-                				@foreach ($errors->all() as $error)
-                				    @if(!empty($error))
-                				     <li>{{ $error }}</li>
-                				    @endif
-                				@endforeach
-                			</ul>
-                		</div>
-                	@endif
+                              @else
+                              <div class="media pull-right color-blue">
+                                 <div class="media-body">
+                                   <h4 class="media-heading text-right">
+                                     <a href="{{route('user/show',$commentaire->user->id)}}">
+                                     {{$commentaire->user->prenom.' '.$commentaire->user->nom}}
+                                     </a>
+                                   <small>
+                                   {{\Carbon\Carbon::createFromTimestamp(strtotime($commentaire->created_at))->diffForHumans()}}
+                                   </small>
+                                   </h4>
+                                   {{$commentaire->contenu}}
+                                 </div>
+                                  <div class="media-right">
+                                    <a href="{{route('user/show',$commentaire->user->id)}}">
+                                      <div class="thumbnail">
+                                      <img class="media-object" src="{{'../'.$commentaire->user->pathPhoto('mini_')}}" alt="photo profil">
+                                      </div>
+                                    </a>
+                                  </div>
+                              </div>
+                              @endif
+                             </div>
+                         </div>
+                     @endforeach
+                 </div>
+                 	@if (count($errors) > 0)
+                         <div class="alert alert-danger">
+                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                             </button>
+                 			<strong>Whoops!</strong> Une erreur est survenue.<br><br>
+                 			<ul>
+                 				@foreach ($errors->all() as $error)
+                 				    @if(!empty($error))
+                 				     <li>{{ $error }}</li>
+                 				    @endif
+                 				@endforeach
+                 			</ul>
+                 		</div>
+                 	@endif
 
-                <form role="form" method="POST" action="{{ route('comment/store') }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="covoiturage_id" value="{{$covoiturage->id}}">
-                    <div class="form-group">
-                        <label for="InputC"><strong>Poser vos questions au conducteur</strong></label>
-                        <textarea class="form-control" id="InputC" rows="5" style="resize: none" name="contenu">{{ old('contenu') }}</textarea>
-                    </div>
-                    <button type="submit" class="btn btn-default">Envoyer</button>
-                </form>
-            </div>
-       </div>
+                 <form role="form" method="POST" action="{{ route('comment/store') }}">
+                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                     <input type="hidden" name="covoiturage_id" value="{{$covoiturage->id}}">
+                     <div class="form-group">
+                         <label for="InputC"><strong>Poser vos questions au conducteur</strong></label>
+                         <textarea class="form-control" id="InputC" rows="5" style="resize: none" name="contenu">{{ old('contenu') }}</textarea>
+                     </div>
+                     <button type="submit" class="btn btn-default">Envoyer</button>
+                 </form>
+             </div>
+        </div>
      </div>
 
 
@@ -288,4 +302,11 @@
           </div>
     </div>
 </div>
+
+<?php
+$depart = $covoiturage->villeDepart;
+$arrivee = $covoiturage->villeArrivee;
+?>
+@include('covoiturage.script_carte', compact('depart','arrivee'))
+
 @endsection

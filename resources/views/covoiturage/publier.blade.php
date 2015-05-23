@@ -111,7 +111,7 @@ class="active"
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Fléxibilité Horaire</label>
                                         <div class="col-md-6">
-                                            <SELECT name="flexibilite_horaire" class="form-control">
+                                            <SELECT name="flexibilite_horaire" data-toggle="select" class="form-control select select-default">
                                                <OPTION VALUE="Pile à l'heure">Pile à l'heure</OPTION>
                                                <OPTION VALUE="+/- 15 minutes">+/- 15 minutes </OPTION>
                                                <OPTION VALUE="+/- 30 minutes">+/- 30 minutes</OPTION>

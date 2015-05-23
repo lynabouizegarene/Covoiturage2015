@@ -35,21 +35,20 @@ class WelcomeController extends Controller {
      */
     public function index()
     {
-        return view('welcome');
-    }
-
-    public function recents(){
         $recents = Covoiturage::with('villeDepart','villeArrivee','conducteur')
             ->select('id','date_depart','prix','vehicule','conducteur_id','ville_arrivee_id','ville_depart_id')
             ->where('date_depart', '>', date("Y-m-d H:i:s"))
             ->orderBy('date_depart')
             ->take(5)
             ->get();
-        return view('covoiturage.covoituragesRecents')->with(compact('recents'));
-    }
-
-    public  function show(){
-        return view('welcome');
+        $bonplans = Covoiturage::with('villeDepart','villeArrivee','conducteur')
+            ->select('id','date_depart','prix','vehicule','conducteur_id','ville_arrivee_id','ville_depart_id')
+            ->where('prix','=','0')
+            ->where('date_depart', '>', date("Y-m-d H:i:s"))
+            ->orderBy('date_depart')
+            ->take(5)
+            ->get();
+        return view('welcome')->with(compact('recents','bonplans'));
     }
 
     public function ccm(){

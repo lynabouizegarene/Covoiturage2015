@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Model\Note;
+use App\Model\Notification;
 use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,13 @@ class NoteController extends Controller {
         $note->note = $data['note'];
         $note->avis = $data['avis'];
         $note->save();
+        Notification::create([
+            'contenu'=>Auth::User()->prenom.' a laissé un avis sur votre profil',
+            'user_id'=>$user->id,
+            'url' => route('user/show',$user->id),
+            'vu' => 0
+
+        ]);
         return redirect()->back();
 	}
 }

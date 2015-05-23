@@ -189,7 +189,7 @@
                     <input type="hidden" name="user_id" value="{{ $user->id }}">
                     <div class="form-group">
                         <label class="control-label">Votre avis </label>
-                        <SELECT name="note" class="form-control">
+                        <select name="note" data-toggle="select" class="form-control select select-inverse">
                            <OPTION VALUE="5" @if($note==5) SELECTED @endif >Extraordinaire</OPTION>
                            <OPTION VALUE="4" @if($note==4) SELECTED @endif >Excellent</OPTION>
                            <OPTION VALUE="3" @if($note==3) SELECTED @endif >Bien</OPTION>

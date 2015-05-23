@@ -4,6 +4,17 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Model\Note
+ *
+ * @property integer $id 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property integer $note 
+ * @property string $avis 
+ * @property integer $noteur_id 
+ * @property integer $notee_id
+ */
 class Note extends Model {
 
 	protected $table = 'notes';

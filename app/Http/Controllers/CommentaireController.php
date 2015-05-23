@@ -2,6 +2,7 @@
 
 use App\Model\Commentaire;
 use App\Model\Covoiturage;
+use App\Model\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,6 +48,32 @@ class CommentaireController extends Controller {
         'user_id'=>Auth::User()->id,
         'covoiturage_id'=>$cov->id
     ]);
+
+    if(Auth::User()->id != $cov->conducteur->id)
+    {
+        Notification::create([
+            'contenu'=>Auth::User()->prenom.' a répondu à votre commentaire',
+            'user_id'=>$cov->conducteur->id,
+            'url' => route('covoiturage/show',$cov->id),
+            'vu' => 0
+        ]);
+    }
+
+    $commentaires=$cov->commentaires()->lists('user_id');
+    $commentateurs=array_unique($commentaires);
+
+    foreach($commentateurs as $commentateur)
+    {
+        if((Auth::User()->id != $commentateur)and($commentateur != $cov->conducteur->id))
+        {
+            Notification::create([
+                'contenu'=>Auth::User()->prenom.' a répondu à votre commentaire',
+                'user_id'=>$commentateur,
+                'url' => route('covoiturage/show',$cov->id),
+                'vu' => 0
+            ]);
+        }
+    }
     return redirect()->back();
   }
 

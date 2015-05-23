@@ -1,8 +1,9 @@
 @extends('app')
 
 @section('content')
+<div style="  margin-bottom: 20px;">
 @include('covoiturage.recherche')
-<div class="col-md-6 col-md-offset-3">
+</div><div class="col-md-6 col-md-offset-3">
     <div class="panel panel-default">
     	<div class="panel-heading">
             <h3>

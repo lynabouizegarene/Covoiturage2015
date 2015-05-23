@@ -9,6 +9,29 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * App\Model\User
+ *
+ * @property integer $id 
+ * @property string $email 
+ * @property string $remember_token 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property string $nom 
+ * @property string $prenom 
+ * @property string $password 
+ * @property string $genre 
+ * @property string $date_nais 
+ * @property string $num_tel 
+ * @property boolean $pref_musique 
+ * @property boolean $pref_animeaux 
+ * @property boolean $pref_discussion 
+ * @property boolean $pref_fumeur 
+ * @property integer $ville_id 
+ * @property string $description 
+ * @property-read \App\Model\Ville $pathPhoto 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Covoiturage[] $moyenneAvis 
+  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract{
 
     use Authenticatable, CanResetPassword;

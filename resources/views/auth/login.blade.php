@@ -61,4 +61,7 @@
 		</div>
 	</div>
 </div>
+<script>
+$(':checkbox').radiocheck();
+</script>
 @endsection

@@ -5,8 +5,9 @@ class="active"
 @endsection
 
 @section('content')
-
+<div style="  margin-bottom: 20px;">
 @include('covoiturage.recherche')
+</div>
 
 <div class="container">
 	<div class="row">

@@ -1,11 +1,11 @@
 @foreach($covoiturages as $covoiturage)
     <?php $conducteur=$covoiturage->conducteur; ?>
-    <div class="thumbnail">
+    <div class="vignette">
         <div class="media">
             <div class="media-left">
                 <a href="{{route('user/show',$conducteur->id)}}">
                     <div class="cliquable">
-                        <img class="media-object img-rounded" src="{{ $path.$conducteur->pathPhoto('mini_') }}" alt="photo de profil">
+                        <img class="media-object img-circle" src="{{ $path.$conducteur->pathPhoto('mini_') }}" alt="photo de profil" style="border: solid 1px #c0c1c2">
                         <div class="text-center">
                             {{ $conducteur->prenom }}<br>
                             {{ \Carbon\Carbon::createFromTimestamp(strtotime($conducteur->date_nais))->age }} ans
@@ -15,7 +15,7 @@
             </div>
             <div class="media-body">
                 <a href="{{route('covoiturage/show',$covoiturage->id)}}">
-                    <div class="cliquable">
+                    <div>
                         <p>
                             <h4 class="media-heading">
                                <span class="color-green glyphicon glyphicon-map-marker"></span>

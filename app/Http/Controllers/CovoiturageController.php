@@ -4,19 +4,20 @@
 use App\Http\Requests\SearchCovoiturageRequest;
 use App\Http\Requests\StoreCovoiturageRequest;
 use App\Model\Covoiturage;
+use App\Model\Notification;
 use App\Model\User;
 use App\Model\Ville;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class CovoiturageController extends Controller
 {
 
     public function __construct(){
+        //lol
         parent::__construct();
         $this->middleware('auth');
     }
@@ -48,6 +49,7 @@ class CovoiturageController extends Controller
         $historique_reservations = $user->inscriptions()->with('inscrits','preinscrits','conducteur','villeDepart','villeArrivee')
             ->where('date_depart','<',date("Y-m-d H:i:s"))
             ->orderBy('date_depart','desc')->get();
+
         return view('covoiturage.mesCovoiturages')->with(compact('annonces_futur','historique_annonces','reservations_confirmees','reservations','historique_reservations'));
     }
 
@@ -168,12 +170,37 @@ class CovoiturageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  Request $request
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        $covoiturage = Covoiturage::findOrFail($request->only('covoiturage_id'))->first();
 
+        if ($covoiturage->conducteur->id == Auth::User()->id) {
+            $covoiturage->inscrits->each(function($inscrit) use (&$covoiturage)
+            {
+                Notification::create([
+                    'contenu' => 'Attention, ' . Auth::User()->prenom . ' a supprimé le covoiturage '.$covoiturage->villeDepart->nom.' '.$covoiturage->villeArrivee->nom,
+                    'user_id' => $inscrit->id,
+                    'url' => route('user/show', Auth::User()->id),
+                    'vu' => 0
+                ]);
+            });
+            $covoiturage->preinscrits->each(function($preinscrit) use (&$covoiturage)
+            {
+                Notification::create([
+                    'contenu' => 'Attention, ' . Auth::User()->prenom . ' a supprimé le covoiturage '.$covoiturage->villeDepart->nom.' '.$covoiturage->villeArrivee->nom,
+                    'user_id' => $preinscrit->id,
+                    'url' => route('user/show', Auth::User()->id),
+                    'vu' => 0
+                ]);
+            });
+            $covoiturage->delete();
+            return redirect()->back()->with('message', 'Votre covoiturage est supprimé');
+        } else {
+            abort(404);
+        }
     }
 
     public function register(){
@@ -190,6 +217,12 @@ class CovoiturageController extends Controller
             return redirect()->back()->with('erreur','Ce trajet est complet');
         }else{
             $covoiturage->preinscrits()->attach($user);
+            Notification::create([
+                'contenu'=>$user->prenom.' vient de s\'inscrire à votre covoiturage',
+                'user_id'=>$covoiturage->conducteur->id,
+                'url' => route('covoiturage/index'),
+                'vu' => 0
+            ]);
             return redirect(route('home'))->with('message','Vous êtes inscrit au covoiturage '
                 .'<a href="'.route('covoiturage/show',$covoiturage->id).'">'
                 .$covoiturage->villeDepart->nom
@@ -198,6 +231,37 @@ class CovoiturageController extends Controller
                 .'</a><br>'
                 .'<small> vous aurez accès au coordonées de l\'annonceur après confirmation de votre réservation</small>');
         }
+    }
+
+    public function cancel(Request $request){
+        $covoiturage = Covoiturage::findOrFail($request->only('covoiturage_id'))->first();
+
+        if($covoiturage->inscrits->contains(Auth::User()) ){
+            $covoiturage->inscrits()->detach(Auth::User());
+            $covoiturage->increment('nombre_places');
+            Notification::create([
+                'contenu'=>'Attention, '.Auth::User()->prenom.' a annulé son inscription',
+                'user_id'=>$covoiturage->conducteur->id,
+                'url' => route('user/show',Auth::User()->id),
+                'vu' => 0
+            ]);
+            return redirect()->back()->with('message','Votre réservation est annulée');
+        }
+        else{
+            abort(404);
+        }
+    }
+
+    public function cancel_reservation(Request $request){
+        $covoiturage = Covoiturage::findOrFail($request->only('covoiturage_id'))->first();
+        if($covoiturage->preinscrits->contains(Auth::User())){
+            $covoiturage->preinscrits()->detach(Auth::User());
+            return redirect()->back()->with('message','Votre réservation est annulée');
+        }
+        else{
+            abort(404);
+        }
+
     }
 
     public function refuse(Request $request){
@@ -231,9 +295,16 @@ class CovoiturageController extends Controller
                 {
                     $annonce->preinscrits()->detach($preinscrit);
                     //notification
+                    Notification::create([
+                        'contenu'=>'Désolé, '.$annonce->conducteur->prenom.' a refusé votre inscription',
+                        'user_id'=>$preinscrit->id,
+                        'url' => route('covoiturage/show',$annonce->id),
+                        'vu' => 0
+                    ]);
                 }
             }
         }
+
     }
 
     public function accept(Request $request){
@@ -271,8 +342,16 @@ class CovoiturageController extends Controller
                     $annonce->inscrits()->attach($preinscrit);
                     $annonce->decrement('nombre_places');
                     //notification et mail
+                    Notification::create([
+                        'contenu'=>'Félicitation, '.$annonce->conducteur->prenom.' a accepté votre inscription ',
+                        'user_id'=>$preinscrit->id,
+                        'url' => route('covoiturage/show',$annonce->id),
+                        'vu' => 0
+                    ]);
                 }
             }
         }
+
+
     }
 }

@@ -17,7 +17,7 @@
                             <span class="glyphicon glyphicon-chevron-right text-primary"></span>
                             <span class="color-red glyphicon glyphicon-map-marker"></span>
                             {{ $annonce_futur->villeArrivee->nom }} <small>{{$annonce_futur->villeArrivee->wilaya}}<br></small>
-                            <small style="padding-left: 25px">
+                            <small style="padding-left: 25px; color: #34495e; color: #34495e">
                                 <?php $date = \Carbon\Carbon::createFromTimestamp(strtotime($annonce_futur->date_depart))?>
                                 Le {{ $date->format('d/m/Y') }} à {{ $date->format('H:i') }}
                                 <a href="{{route('covoiturage/show',$annonce_futur->id)}}" class="btn-xs btn-default pull-right"><span class="glyphicon glyphicon-plus color-blue"></span></a>
@@ -81,6 +81,38 @@
                     </div>
                   @endif
 
+                  <!-- Button trigger modal -->
+                  <a href="#" class=" btn btn-xs btn-danger link-blanc btn-group-justified" data-toggle="modal" data-target="#myModal{{$annonce_futur->id}}">
+                    Supprimer l'annonce<span class=" glyphicon glyphicon-chevron-right"></span>
+                  </a>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="myModal{{$annonce_futur->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h3 class="modal-title" id="myModalLabel">
+                           <span class="color-green glyphicon glyphicon-map-marker"></span>
+                              {{ $annonce_futur->villeDepart->nom }} <small>{{$annonce_futur->villeDepart->wilaya}}</small>
+                              <span class="glyphicon glyphicon-chevron-right text-primary"></span>
+                              <span class="color-red glyphicon glyphicon-map-marker"></span>
+                              {{ $annonce_futur->villeArrivee->nom }} <small>{{$annonce_futur->villeArrivee->wilaya}}</small>
+                          </h3>
+                        </div>
+
+                        <div class="modal-footer">
+                          <form role="form" method="POST" action="{{ route('covoiturage/destroy') }}">
+                              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                              <input type="hidden" name="covoiturage_id" value="{{ $annonce_futur->id }}">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
                   </div>
                 </div>
               </div>
@@ -111,7 +143,7 @@
                             <span class="glyphicon glyphicon-chevron-right text-primary"></span>
                             <span class="color-red glyphicon glyphicon-map-marker"></span>
                             {{ $historique_annonce->villeArrivee->nom }} <small>{{$historique_annonce->villeArrivee->wilaya}}<br></small>
-                            <small style="padding-left: 25px">
+                            <small style="padding-left: 25px; color: #34495e; color: #34495e">
                                 <?php $date = \Carbon\Carbon::createFromTimestamp(strtotime($historique_annonce->date_depart))?>
                                 Le {{ $date->format('d/m/Y') }} à {{ $date->format('H:i') }}
                                 <a href="{{route('covoiturage/show',$historique_annonce->id)}}" class="btn-xs btn-default pull-right"><span class="glyphicon glyphicon-plus color-blue"></span></a>

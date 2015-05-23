@@ -138,7 +138,7 @@ class UserController extends Controller {
           $note = '';
       }
 
-      $notesrecu=$user->notesRecu()->with('noteur')->orderBy('updated_at')->get()->take(8);
+      $notesrecu=$user->notesRecu()->with('noteur')->orderBy('updated_at','desc')->get()->take(8);
 
       return  view('user.profil')->with(compact('user','acces_tel','acces_avis','avis','note','notesrecu'));
   }

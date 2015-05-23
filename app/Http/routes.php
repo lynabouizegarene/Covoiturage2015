@@ -47,10 +47,7 @@ Route::post('covoiturage/inscription',[
     'as'=>'covoiturage/register',
     'uses'=>'CovoiturageController@register'
 ]);
-Route::get('covoiturage/recents',[
-    'as'=>'covoiturage/recents',
-    'uses'=>'WelcomeController@recents'
-]);
+
 /*-------------------------------------------------------------*/
 Route::post('covoiturage/accepter',[
     'as'=>'covoiturage/accept',
@@ -59,6 +56,18 @@ Route::post('covoiturage/accepter',[
 Route::post('covoiturage/refuser',[
     'as'=>'covoiturage/refuse',
     'uses'=>'CovoiturageController@refuse'
+]);
+Route::post('covoiturage/annuler',[
+    'as'=>'covoiturage/cancel',
+    'uses'=>'CovoiturageController@cancel'
+]);
+Route::post('covoiturage/annuler_resarvation',[
+    'as'=>'covoiturage/cancel_reservation',
+    'uses'=>'CovoiturageController@cancel_reservation'
+]);
+Route::post('covoiturage/supprimer',[
+    'as'=>'covoiturage/destroy',
+    'uses'=>'CovoiturageController@destroy'
 ]);
 /*-------------------------------------------------------------*/
 Route::get('profil/{id}', [
@@ -89,3 +98,14 @@ Route::get('comment_ca_marche',[
     'as'=>'comment_ca_marche',
     'uses' =>'WelcomeController@ccm'
 ]);
+
+/*-------------------------------------------------------------*/
+Route::get('notification',[
+   'as'=>'notifier',
+    'uses'=>'NotificationController@show'
+]);
+Route::get('notificationVu/{id}',[
+    'as'=>'notificationVu',
+    'uses'=>'NotificationController@notificationVu'
+])->where(['id' => '[0-9]+']);
+
