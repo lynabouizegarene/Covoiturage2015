@@ -1,7 +1,8 @@
 <?php namespace App\Http\Requests;
 
+use Carbon\Carbon;
 
-class StoreCovoiturageRequest extends Request {
+class SearchCovoiturageRequest extends Request {
 
     /**
      * Get the validation rules that apply to the request.
@@ -19,14 +20,8 @@ class StoreCovoiturageRequest extends Request {
             'ville_a' => 'required|max:255',
             'wilaya_a' => 'required|max:255',
             'geoloc_a' => 'required|max:255',
-            'date_depart' => 'required|after:'.date('y-m-d H:i'),
-            'prix' => 'required|numeric|between:0,2000',
-            'nombre_places' => 'required|numeric|between:1,10',
-            'vehicule' => 'required',
-            'bagage' => 'required|in:petit,moyen,grand',
-            'flexibilite_horaire' => 'required|in:Pile à l\'heure,+/- 15 minutes,+/- 30 minutes',
+            'date_depart' => 'date|after:'.Carbon::yesterday()->toDateString(),
         ];
     }
-
 
 }

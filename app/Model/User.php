@@ -34,18 +34,29 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	public function preinscriptions()
 	{
-		return $this->belongsToMany('App\Model\Covoiturage','user_covoiturage_preinscrits');
+		return $this->belongsToMany('App\Model\Covoiturage','user_covoiturage_preinscrits')->withTimestamps();
 	}
 
 	public function inscriptions()
 	{
-		return $this->belongsToMany('App\Model\Covoiturage','user_covoiturage_inscrits');
+		return $this->belongsToMany('App\Model\Covoiturage','user_covoiturage_inscrits')->withTimestamps();
 	}
 
 	public function conducteurCovoiturages()
 	{
 		return $this->hasMany('App\Model\Covoiturage', 'conducteur_id');
 	}
+
+    public function notesRecu()
+    {
+        return $this->hasMany('App\Model\Note', 'notee_id');
+    }
+
+    public function notesAttribuer()
+    {
+        return $this->hasMany('App\Model\Note', 'noteur_id');
+    }
+
 
     public function pathPhoto($prefix = '')
     {
@@ -58,5 +69,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $pathPhoto = '../storage/app/'. $prefix .'Femme.jpg';
         }
         return $pathPhoto;
+    }
+
+    public function moyenneAvis(){
+        $somme=0;
+        $nb_notes=$this->notesRecu->count();
+        foreach($this->notesRecu as $note)
+        {
+            $somme = $somme + $note->note;
+        }
+        if($nb_notes==0)
+            return null;
+        else
+            return ['moyenne' => number_format($somme/$nb_notes,1),'nb_note'=>$nb_notes];
     }
 }

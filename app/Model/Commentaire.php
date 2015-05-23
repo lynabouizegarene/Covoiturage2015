@@ -8,6 +8,7 @@ class Commentaire extends Model {
 
 	protected $table = 'commentaires';
 	public $timestamps = true;
+    protected  $guarded = array('id', 'timestamps');
 
 	public function user()
 	{

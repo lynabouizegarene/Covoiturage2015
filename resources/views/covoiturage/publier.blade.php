@@ -125,7 +125,7 @@ class="active"
                             <div class="panel-heading"><h4><span class="glyphicon glyphicon-list-alt"></span> Description </h4></div>
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Entrez des informations suplémentaire sur le covoiturage</label>
+                                    <label class="col-md-4 control-label">Veuillez ajouter plus de détails sur votre trajet. Cela vous évitera beaucoup de questions de vos passagers.</label>
                                     <div class="col-md-6">
                                         <textarea class="form-control" name="details" rows="6" style="resize: none" >{{ old('description') }}</textarea>
                                     </div>

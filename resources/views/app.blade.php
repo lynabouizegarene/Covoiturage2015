@@ -9,13 +9,19 @@
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/font-awesome-4.3.0/css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/style.css') }}" rel="stylesheet">
+	<link href="{{ asset('/css/timeline.css') }}" rel="stylesheet">
     @yield('maps_script')
 	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+	<!--
 	<link href='http://fonts.googleapis.com/css?family=Nixie+One' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Akronim' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Qwigley' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Wire+One' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Rokkitt' rel='stylesheet' type='text/css'>
+	-->
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -24,7 +30,7 @@
 	<![endif]-->
 </head>
 <body @yield('maps_onload')>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbar">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -33,13 +39,20 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Laravel</a>
+				<a class="navbar-brand" href="{{url('/')}}">Nom du site</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li @yield('activeAccueil')><a href="{{ url('/') }}">Accueil</a></li>
-					<li @yield('activePublier')><a href="{{ route('covoiturage/create') }}">Publier</a></li>
+					@if (Auth::check())
+					<li @yield('activeAccueil')><a href="{{ route('home') }}">Accueil</a></li>
+
+					<li @yield('activeMesCovoiturages')><a href="{{ route('covoiturage/index') }}">Mes Covoiturages</a></li>
+				    @else
+					<li @yield('activeRecents')><a href="{{ route('covoiturage/recents') }}">Covoiturages récents</a></li>
+				    @endif
+				    <li @yield('activePublier')><a href="{{ route('covoiturage/create') }}">Publier</a></li>
+				    <li @yield('activeCcm')><a href="{{ route('comment_ca_marche') }}">Comment ça marche?</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -50,9 +63,13 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->prenom }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('/auth/logout') }}">
-								        <span class="glyphicon glyphicon-off"></span> Logout
-								    </a>
+							    <li>
+                            	    <a href="{{route('user/edit')}}">
+                                    <i class="fa fa-pencil-square-o"></i> Editer mon profil</a>
+                            	</li>
+								<li>
+								    <a href="{{ url('/auth/logout') }}">
+								    <span class="glyphicon glyphicon-off"></span> Logout</a>
 								</li>
 							</ul>
 						</li>
@@ -67,7 +84,7 @@
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
+    @yield('script_ajax')
     @yield('script_register')
     @yield('script_maps_autocomplete')
 </body>

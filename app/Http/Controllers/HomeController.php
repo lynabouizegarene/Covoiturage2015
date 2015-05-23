@@ -14,8 +14,8 @@ class HomeController extends Controller {
      */
 	public function __construct()
 	{
+        parent::__construct();
 		$this->middleware('auth');
-        Carbon::setLocale('fr');
 	}
 
 	/**
@@ -42,7 +42,9 @@ class HomeController extends Controller {
 
         $pasLoins = $this->covoituragesMoinDe(100,Auth::User()->ville,3);
 
-        return view('home')->with(compact('recents','bonplans','pasLoins'));
+        $user=Auth::User();
+
+        return view('home')->with(compact('recents','bonplans','pasLoins','user'));
 	}
 
 }
