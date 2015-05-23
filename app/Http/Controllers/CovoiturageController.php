@@ -17,7 +17,6 @@ class CovoiturageController extends Controller
 {
 
     public function __construct(){
-        //lol
         parent::__construct();
         $this->middleware('auth');
     }
